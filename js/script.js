@@ -79,6 +79,10 @@ $('#mapLink').click(function() {
 
 //Extract Coordinates from user input
 $('#portals').keyup(function() {
+  coordFind();
+});
+
+function coordFind() {
   var portalURL  = $('#portals').val();
   var portalURLs = portalURL.split(/\n/);
   var reg        = /(?:http(?:s{0,1}):\/\/www\.ingress\.com\/intel\?ll=)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6}){0,1}(?:&z=)\d{1,2}(?:(?:&pls=)(?:(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:,)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:_)){0,}(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:,)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})){0,1}(?:&pll=)((?:-{0,1})?\d{1,3}(?:.{0,1})\d{1,6})(?:,)((?:-{0,1})\d{1,3}(?:.)\d{1,6})$/;
@@ -119,7 +123,7 @@ $('#portals').keyup(function() {
     errorMsg();
     errorMap();
   }
-});
+}
 
 //Report invalid input to user
 function errorMsg() {
