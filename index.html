@@ -18,7 +18,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="dropSwap()">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id="manual">
                 INSTRUCTIONS <i id="manual-drop" class="fa fa-chevron-down"></i>
               </a>
             </h4>
@@ -45,7 +45,7 @@
           <div class="col-md-10">
             <div class="form-group has-error" id="validDiv">
               <label for="portals" class="form-control-feedback sr-only">Portal URLs <span class="glyphicon glyphicon-remove" id="portalValid"></span></label>
-              <textarea id="portals" class="form-control" rows="10" maxlength="2000" placeholder="Enter Intel URLs, each separated by a line" onkeyup="coordFind()"></textarea>
+              <textarea id="portals" class="form-control" rows="10" maxlength="2000" placeholder="Enter Intel URLs, each separated by a line"></textarea>
             </div>
           </div>
           <div class="col-md-2 actionPanel">
@@ -55,7 +55,7 @@
                 <input type="checkbox" checked="checked" id="optimal"> Auto-optimise
               </label>
             </div>
-            <button type="button" class="btn btn-default btn-block" onClick="calcRoute()" id="mapBtn" disabled>Generate Route</button>
+            <button type="button" class="btn btn-default btn-block" id="mapBtn" disabled>Generate Route</button>
           </div>
         </div>
       </form>
@@ -63,9 +63,9 @@
       <form>
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" id="map" placeholder="Google Maps Route URL" value="" readonly onClick="this.setSelectionRange(0, this.value.length)">
+            <input type="text" class="form-control" id="map" placeholder="Google Maps Route URL" value="" readonly>
             <span class="input-group-btn">
-              <button id="mapLink" class="btn btn-default" type="button" onClick="openMap()" disabled="disabled" alt="open in Google Maps" title="Open in Google Maps">
+              <button id="mapLink" class="btn btn-default" type="button" disabled="disabled" alt="open in Google Maps" title="Open in Google Maps">
                 <i class="fa fa-external-link"></i>
               </button>
             </span>

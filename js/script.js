@@ -1,113 +1,14 @@
-//Extract Coordinates from user input
-function coordFind() {
-  var portalURL  = $('#portals').val();
-  var portalURLs = portalURL.split(/\n/);
-  var reg        = /(?:http(?:s{0,1}):\/\/www\.ingress\.com\/intel\?ll=)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6}){0,1}(?:&z=)\d{1,2}(?:(?:&pls=)(?:(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:,)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:_)){0,}(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:,)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})){0,1}(?:&pll=)((?:-{0,1})?\d{1,3}(?:.{0,1})\d{1,6})(?:,)((?:-{0,1})\d{1,3}(?:.)\d{1,6})$/;
-  waypts         = [];
-
-  for (var i = 0; i < portalURLs.length; i++) {
-    //Only process lines with data
-    if (!(portalURLs[i] == '')) {
-
-      //Check url valid
-      if (!(reg.test(portalURLs[i]))) {
-
-        //Report invalid input to user
-        errorMsg();
-        errorMap();
-      }
-
-      reg.exec(portalURLs[i]);
-
-      //Add to waypoint array
-      var coords = new google.maps.LatLng(RegExp.$1, RegExp.$2);
-      waypts.push({
-        location: coords,
-        stopover: true
-      });
-
-      //Center map on new portal
-      map.setCenter(coords);
-      map.setZoom(15);
-
-      //Report valid input to user
-      successMsg();
-    }
-  }
-  
-  //Revert to invalid if input blank
-  if (portalURL === '') {
-    errorMsg();
-    errorMap();
-  }
-}
-
-//Report invalid input to user
-function errorMsg() {
-  $('#map').val('')
-  $('#mapBtn').prop("disabled", true);
-  $('#mapBtn').removeClass('btn-success').addClass('btn-default');
-  $('#portalValid').removeClass('glyphicon-ok').addClass('glyphicon-remove');
-  $('#validDiv').removeClass('has-success').addClass('has-error');
-}
-
-//Report valid input to user
-function successMsg() {
-  $('#mapBtn').prop("disabled", false);
-  $('#mapBtn').removeClass('btn-default').addClass('btn-success');
-  $('#portalValid').removeClass('glyphicon-remove').addClass('glyphicon-ok');
-  $('#validDiv').removeClass('has-error').addClass('has-success');
-}
-
-//Enable external map link
-function successMap() {
-  $('#mapLink').prop("disabled", false);
-  $('#mapLink').removeClass('btn-default').addClass('btn-success');
-}
-
-//Disable external map link
-function errorMap() {
-  $('#mapLink').prop("disabled", true);
-  $('#mapLink').removeClass('btn-success').addClass('btn-default');
-}
-
-//Open route URL
-function openMap() {
-  var map = $('#map').val();
-  if (map) {
-    var win = window.open(map, '_blank');
-    if (win) {
-      win.focus();
-    } else {
-      //Broswer has blocked it
-      alert('Please allow popups for this site.');
-    }
-  }
-}
-
-//Swap chevron when viewing instructions
-function dropSwap() {
+// Event listeners
+$('#manual').click(function() {
   $('#manual-drop').toggleClass("fa-chevron-down fa-chevron-up");
-}
+});
 
-//Map initialisation
-var map; //Global map object
-var directionsDisplay;
-var waypts            = []; //Global waypoints array
-var directionsService = new google.maps.DirectionsService();
-
-function initialize() {
-  directionsDisplay = new google.maps.DirectionsRenderer();
-  var mapOptions = {
-    zoom:   2,
-    center: new google.maps.LatLng(0, 0)
-  };
-  map = new google.maps.Map($('#map-canvas')[0], mapOptions);
-  directionsDisplay.setMap(map);
-}
+$('#map').click(function() {
+  $('#map').select();
+});
 
 //Calculate Route
-function calcRoute() {
+$('#mapBtn').click(function() {
   //Refresh waypoints
   coordFind();
 
@@ -160,6 +61,109 @@ function calcRoute() {
       }
     }
   });
+});
+
+//Open route URL
+$('#mapLink').click(function() {
+  var map = $('#map').val();
+  if (map) {
+    var win = window.open(map, '_blank');
+    if (win) {
+      win.focus();
+    } else {
+      //Broswer has blocked it
+      alert('Please allow popups for this site.');
+    }
+  }
+});
+
+//Extract Coordinates from user input
+$('#portals').keyup(function() {
+  var portalURL  = $('#portals').val();
+  var portalURLs = portalURL.split(/\n/);
+  var reg        = /(?:http(?:s{0,1}):\/\/www\.ingress\.com\/intel\?ll=)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6}){0,1}(?:&z=)\d{1,2}(?:(?:&pls=)(?:(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:,)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:_)){0,}(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})(?:,)(?:-{0,1})?\d{1,3}(?:.)\d{1,6}(?:,)(?:-{0,1})\d{0,3}(?:(?:.)\d{1,6})){0,1}(?:&pll=)((?:-{0,1})?\d{1,3}(?:.{0,1})\d{1,6})(?:,)((?:-{0,1})\d{1,3}(?:.)\d{1,6})$/;
+  waypts         = [];
+
+  for (var i = 0; i < portalURLs.length; i++) {
+    //Only process lines with data
+    if (!(portalURLs[i] == '')) {
+
+      //Check url valid
+      if (!(reg.test(portalURLs[i]))) {
+
+        //Report invalid input to user
+        errorMsg();
+        errorMap();
+      } else {
+        reg.exec(portalURLs[i]);
+
+        //Add to waypoint array
+        var coords = new google.maps.LatLng(RegExp.$1, RegExp.$2);
+        waypts.push({
+          location: coords,
+          stopover: true
+        });
+
+        //Center map on new portal
+        map.setCenter(coords);
+        map.setZoom(15);
+
+        //Report valid input to user
+        successMsg();
+      }
+    }
+  }
+  
+  //Revert to invalid if input blank
+  if (portalURL === '') {
+    errorMsg();
+    errorMap();
+  }
+});
+
+//Report invalid input to user
+function errorMsg() {
+  $('#map').val('')
+  $('#mapBtn').prop("disabled", true);
+  $('#mapBtn').removeClass('btn-success').addClass('btn-default');
+  $('#portalValid').removeClass('glyphicon-ok').addClass('glyphicon-remove');
+  $('#validDiv').removeClass('has-success').addClass('has-error');
+}
+
+//Report valid input to user
+function successMsg() {
+  $('#mapBtn').prop("disabled", false);
+  $('#mapBtn').removeClass('btn-default').addClass('btn-success');
+  $('#portalValid').removeClass('glyphicon-remove').addClass('glyphicon-ok');
+  $('#validDiv').removeClass('has-error').addClass('has-success');
+}
+
+//Enable external map link
+function successMap() {
+  $('#mapLink').prop("disabled", false);
+  $('#mapLink').removeClass('btn-default').addClass('btn-success');
+}
+
+//Disable external map link
+function errorMap() {
+  $('#mapLink').prop("disabled", true);
+  $('#mapLink').removeClass('btn-success').addClass('btn-default');
+}
+
+//Map initialisation
+var map; //Global map object
+var directionsDisplay;
+var waypts            = []; //Global waypoints array
+var directionsService = new google.maps.DirectionsService();
+
+function initialize() {
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  var mapOptions = {
+    zoom:   2,
+    center: new google.maps.LatLng(0, 0)
+  };
+  map = new google.maps.Map($('#map-canvas')[0], mapOptions);
+  directionsDisplay.setMap(map);
 }
 
 //Load map
