@@ -4,7 +4,7 @@
 
 ### Usage
 
-Ingress Route Planner is available at [http://ellsclytn.github.io/PortalPlanner](http://ellsclytn.github.io/PortalPlanner).
+Ingress Route Planner is available at [http://ellsclytn.github.io/PortalPlanner](https://ellsclytn.github.io/PortalPlanner).
 
 ### Development
 
